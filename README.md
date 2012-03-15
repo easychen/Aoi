@@ -29,12 +29,12 @@ echo "export PATH=/Users/easychen/Aoi:$PATH" >> ~/.bash_profile
 # 配置编辑器
 打开Aoi目录下的aoi.config.php
 将第一行换成你喜欢的编辑器
-<code>
+<pre>
 // Mac
 define('AOI_EDITOR_PATH' , 'open -a 已经在Mac下安装的编辑器名称');
 // Win
 define('AOI_EDITOR_PATH' , 'E:\\notepad++.exe');
-</code>
+</pre>
 
 # 配置代码模板
 Aoi在创建项目、Action和测试的时候，都会使用到代码模板。这些代码模板放在Aoi目录下的【_aoi_boudoir/demos】下。
