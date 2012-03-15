@@ -20,7 +20,12 @@ Aoi使用命令行和主人交谈。为了保证能在任何目录召唤出Aoi�
 ## Mac环境
 为Aoi找好一个非临时的目录，以防你不小心把她推倒到回收站。假设该目录为\Users\easychen\Aoi
 
-在Terminal下运行 
+进入Terminal，先给aoi加上可执行权限
+<pre>
+chmod +x aoi
+</pre>
+
+然后将aoi的路径加入bash的PATH中
 <pre>
 echo "export PATH=/Users/easychen/Aoi:$PATH" >> ~/.bash_profile
 </pre>
