@@ -161,13 +161,13 @@ function aoi_create_view()
 			if( $dir == '.' )
 			{
 				$view_path = $root . DS . 'view' . DS . 'layout' . DS . strtolower($layoutid) . DS . strtolower($controller);
-				$view_demo = _ROOT . 'demos' . DS . 'view' . DS . strtolower($layoutid) .DS .'empty_style.tpl.html'; 
+				$view_demo = _ROOT . 'demos' . DS . 'view' . DS . strtolower($layoutid) .DS .'empty_sharp.tpl.html'; 
 			}
 			else
 			{
 				$view_path = $root . DS . 'view' . DS . 'layout' . DS . strtolower($layoutid) . DS . strtolower( $dir ) . DS . strtolower($controller);
 			
-				$view_demo = _ROOT . 'demos' . DS . 'view' . strtolower($layoutid) . DS . strtolower( $dir ) . DS .'empty_style.tpl.html';
+				$view_demo = _ROOT . 'demos' . DS . 'view' . strtolower($layoutid) . DS . strtolower( $dir ) . DS .'empty_sharp.tpl.html';
 			}
 			
 			$view_file = $view_path . DS . strtolower($action).'.tpl.html';
