@@ -1,6 +1,7 @@
 <?php
 define( 'DS' , DIRECTORY_SEPARATOR );
 define( 'AOI_HOME_URL' , 'http://aoihome.sinaapp.com/zip/' );
+define( 'AOI_FUN_URL' , 'http://aoihome.sinaapp.com/fun/' );
 
 
 function list_function( $file )
@@ -17,6 +18,32 @@ function list_function( $file )
 		
 	}
 	return false;
+}
+
+function file_add_function( $filename , $code , $func )
+{
+	if( $flist = list_function( $filename ) )
+	{
+		if( in_array( $func , $flist ) )
+		{
+			aecho("function exist already");
+			return false;
+		}
+	}
+	
+	$content = file_get_contents( $filename );
+	$reg = '/<\?php\s*(.+?)$/is';
+	
+	if( preg_match( $reg , $content , $out ) )
+	{
+		$code_old = $out[1];
+		
+		$new_code = "<?php \r\n// From aoihome.sinaapp.com/fun via Aoi [" . $func . "]\r\n". $code . "\r\n\r\n" . $code_old;
+		
+		return file_put_contents( $filename , $new_code );
+		
+	}
+	
 }
 
 function class_add_function( $cfile , $afile , $action )

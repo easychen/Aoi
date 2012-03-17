@@ -114,6 +114,41 @@ function aoi_create_test()
 
 }
 
+function aoi_if()
+{
+	$args = func_get_args();
+	return call_user_func_array('aoi_import_function' , $args );
+}
+
+function aoi_import_function()
+{
+	if(!is_lp_root())
+	{
+		aecho("只能在LP项目的Root导入函数啦主人");
+		return false;
+	}
+	
+	$args = func_get_args();
+	
+	if( !empty( $args[0] ) )
+		$func = z(t( $args[0] ));
+	else
+		$func = want("Remote function name: ");
+	
+	$root = getcwd();
+	$afile = $root . DS . 'lib' . DS .'app.function.php';
+	
+	if(!$code = file_get_contents( AOI_FUN_URL . '?a=raw&func=' . u($func) ))
+		return aecho("没有查询到可用的函数");
+	elseif( file_exists( $afile ) )
+		if(file_add_function( $afile , $code , $func ))
+			return aecho("函数追加成功");
+		else
+			return aecho("函数追加失败");
+	else
+		return aecho( $afile .' 不存在' );
+}
+
 function aoi_cv()
 {
 	$args = func_get_args();
@@ -179,15 +214,16 @@ function aoi_create_view()
 				aecho( '模板文件'.$view_file.'已经存在啦。' );
 				system( AOI_EDITOR_PATH . ' ' .  $view_file );
 			}
-			
-			if( file_exists( $view_demo ) )
-				copy( $view_demo , $view_file );
 			else
-				file_put_contents( $view_file , '' );
-			
-			aecho( strtolower($controller) . '/' . strtolower($action).'的模板创建完成' );
-			system( AOI_EDITOR_PATH . ' ' .  $view_file );
-			
+			{
+				if( file_exists( $view_demo ) )
+					copy( $view_demo , $view_file );
+				else
+					file_put_contents( $view_file , '' );
+				
+				aecho( strtolower($controller) . '/' . strtolower($action).'的模板创建完成' );
+				system( AOI_EDITOR_PATH . ' ' .  $view_file );
+			}
 			
 		}
 	}
@@ -397,6 +433,7 @@ function aoi_help()
 	echo "- Create Action: aoi ca controller_name action_name \n";
 	echo "- Create Test: aoi ct controller_name action_name \n";
 	echo "- Create View: aoi cv controller_name action_name layout_name \n";
+	echo "- Import remote function: aoi if function_name \n";
 
 		
 
