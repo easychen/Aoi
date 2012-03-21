@@ -3,12 +3,18 @@ define( 'AOI_HOME_URL' , 'http://aoihome.sinaapp.com/zip/' );
 define( 'AOI_FUN_URL' , 'http://aoihome.sinaapp.com/fun/' );
 
 
-function rrmdir( $path )
-{
-  return is_file($path)?
-    @unlink($path):
-    array_map('rrmdir',glob($path.'/*'))==@rmdir($path);
-}
+function recursiveDelete($str){
+        if(is_file($str)){
+            return @unlink($str);
+        }
+        elseif(is_dir($str)){
+            $scan = glob(rtrim($str,'/').'/*');
+            foreach($scan as $index=>$path){
+                recursiveDelete($path);
+            }
+            return @rmdir($str);
+        }
+    }
 
 function list_function( $file )
 {

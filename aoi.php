@@ -134,7 +134,7 @@ function aoi_update_lp()
 	
 	// clean
 	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
-		@rrmdir($dir);
+		@recursiveDelete($dir);
 	
 	require_once( _ROOT . 'dUnzip2.inc.php');
 	$zip = new dUnzip2( $tfile );
@@ -176,7 +176,7 @@ function aoi_update_self()
 	
 	// clean
 	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
-		@rrmdir($dir);
+		@recursiveDelete($dir);
 	
 	
 	
