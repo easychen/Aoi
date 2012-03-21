@@ -1,8 +1,11 @@
 <?php
-include_once( '_aoi_boudoir/core.function.php' );
-include_once( 'aoi.config.php' );
+define( 'DS' , DIRECTORY_SEPARATOR );
 define( 'AROOT' , dirname( __FILE__ ) . DS  );
 define( '_ROOT' , AROOT . '_aoi_boudoir' . DS );
+include_once( _ROOT .'core.function.php' );
+require( AROOT . 'aoi.config.php' );
+
+
 
 if( !isset( $argv[1] ) )
 {
@@ -112,6 +115,68 @@ function aoi_create_test()
 			aecho(" 失败了。T____T");
 	}
 
+}
+
+function aoi_update_lp()
+{
+	$tfile = _ROOT . 'tmp' . DS .'lplast.zip';
+	
+	aecho("开始从github下载[" . LP_SOURCE_URI . "]，会花好几分钟时间啦，找个墙角蹲着画圈玩吧…");
+	if( !copy( LP_SOURCE_URI , $tfile ) )
+	{
+		aecho("下载文件失败。T____T");
+		return false;
+	}
+	
+	require_once( _ROOT . 'dUnzip2.inc.php');
+	$zip = new dUnzip2( $tfile );
+	$zip->debug = false; 
+	$source_tmp = _ROOT . 'tmp' . DS . 'lpsource';
+	$zip->unzipAll( $source_tmp );
+	aecho( "解压成功。复制到本地Aoi目录……" );
+	$to = _ROOT .'demos' . DS . 'empty_project';
+	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
+	{
+		if( is_dir( $dir ) )
+		{
+			$lp_dir_source = $dir ;
+			copy_r( $dir , $to );
+			aecho('更新成功'); 
+			return true;
+			break;
+		}
+	}
+
+}
+
+
+
+function aoi_update_self()
+{
+	$tfile = _ROOT . 'tmp' . DS .'aoilast.zip';
+	
+	aecho("开始从github下载[" . AOI_SOURCE_URI . "]，会花好几分钟时间啦，找个墙角蹲着画圈玩吧…");
+	if( !copy( AOI_SOURCE_URI , $tfile ) )
+	{
+		aecho("下载文件失败。T____T");
+		return false;
+	}
+	
+	require_once( _ROOT . 'dUnzip2.inc.php');
+	$zip = new dUnzip2( $tfile );
+	$zip->debug = false; 
+	$source_tmp = _ROOT . 'tmp' . DS . 'aoisource';
+	@mkdir( $source_tmp , 0777 , true );
+	$zip->unzipAll( $source_tmp );
+	aecho( "解压成功。复制到本地Aoi目录……" );
+	$to = AROOT ;
+	
+	if( want("会覆盖当前的Aoi目录哦~确定继续不？[Y/N]") == 'Y' )
+	{
+		copy_r( $source_tmp , $to );
+		aecho('更新成功'); 
+	}
+	
 }
 
 function aoi_if()

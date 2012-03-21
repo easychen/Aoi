@@ -1,5 +1,4 @@
 <?php
-define( 'DS' , DIRECTORY_SEPARATOR );
 define( 'AOI_HOME_URL' , 'http://aoihome.sinaapp.com/zip/' );
 define( 'AOI_FUN_URL' , 'http://aoihome.sinaapp.com/fun/' );
 
