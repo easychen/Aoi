@@ -130,11 +130,8 @@ function aoi_update_lp()
 	
 	
 	$source_tmp = _ROOT . 'tmp' . DS . 'lpsource';
+	@recursiveDelete($source_tmp);
 	@mkdir( $source_tmp , 0777 , true );
-	
-	// clean
-	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
-		@recursiveDelete($dir);
 	
 	require_once( _ROOT . 'dUnzip2.inc.php');
 	$zip = new dUnzip2( $tfile );
@@ -172,13 +169,8 @@ function aoi_update_self()
 	}
 	
 	$source_tmp = _ROOT . 'tmp' . DS . 'aoisource';
+	@recursiveDelete($source_tmp);
 	@mkdir( $source_tmp , 0777 , true );
-	
-	// clean
-	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
-		@recursiveDelete($dir);
-	
-	
 	
 	require_once( _ROOT . 'dUnzip2.inc.php');
 	$zip = new dUnzip2( $tfile );
