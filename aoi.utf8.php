@@ -132,6 +132,7 @@ function aoi_update_lp()
 	$zip = new dUnzip2( $tfile );
 	$zip->debug = false; 
 	$source_tmp = _ROOT . 'tmp' . DS . 'lpsource';
+	@mkdir( $source_tmp , 0777 , true );
 	$zip->unzipAll( $source_tmp );
 	aecho( "解压成功。复制到本地Aoi目录……" );
 	$to = _ROOT .'demos' . DS . 'empty_project';
