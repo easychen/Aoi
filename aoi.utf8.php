@@ -142,16 +142,14 @@ function aoi_update_lp()
 	aecho( "解压成功。复制到本地Aoi目录……" );
 	$to = _ROOT .'demos' . DS . 'empty_project';
 	@mkdir( $to , 0777 , true );
+	
 	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
-	{
 		if( is_dir( $dir ) )
-		{
-			copy_r( $dir , $to );
-			aecho('更新成功'); 
-			return true;
-			break;
-		}
-	}
+			$fs[] =  $dir;
+	
+	
+	copy_r( end($fs) , $to );
+	aecho('更新成功'); 
 
 }
 
@@ -169,7 +167,6 @@ function aoi_update_self()
 	}
 	
 	$source_tmp = _ROOT . 'tmp' . DS . 'aoisource';
-	@recursiveDelete($source_tmp);
 	@mkdir( $source_tmp , 0777 , true );
 	
 	require_once( _ROOT . 'dUnzip2.inc.php');
@@ -191,19 +188,13 @@ function aoi_update_self()
 		
 		
 		foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
-		{
-			//echo $dir;
 			if( is_dir( $dir ) )
-			{
-				
-				copy_r( $dir , $to );
-				aecho('更新成功'); 
-				return true;
-				break;
-			}
-		}
-			
+				$fs[] =  $dir;
 		
+		
+		copy_r( end($fs) , $to );
+		aecho('更新成功'); 
+		return true;
 		
 	}
 	else
