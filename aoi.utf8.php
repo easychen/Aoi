@@ -139,7 +139,6 @@ function aoi_update_lp()
 	{
 		if( is_dir( $dir ) )
 		{
-			$lp_dir_source = $dir ;
 			copy_r( $dir , $to );
 			aecho('更新成功'); 
 			return true;
@@ -171,11 +170,34 @@ function aoi_update_self()
 	aecho( "解压成功。复制到本地Aoi目录……" );
 	$to = AROOT ;
 	
-	if( want("会覆盖当前的Aoi目录哦~确定继续不？[Y/N]") == 'Y' )
+	if( strtolower(want("会覆盖当前的Aoi目录哦~确定继续不？[Y/N]")) == 'y' )
 	{
-		copy_r( $source_tmp , $to );
-		aecho('更新成功'); 
+		// do bakeup
+		$bakeup_dir = AROOT . DS . 'bakeup';
+		@mkdir( $bakeup_dir , 0777 , true );
+		$files = array( 'aoi' , 'aoi.bat' , 'aoi.utf8.php' , 'aoi.php' , 'aoi.config.php' ); 
+		foreach( $files as $f )
+			copy( AROOT . DS . $f , $bakeup_dir . DS . $f );
+		
+		
+		foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
+		{
+			//echo $dir;
+			if( is_dir( $dir ) )
+			{
+				
+				copy_r( $dir , $to );
+				aecho('更新成功'); 
+				return true;
+				break;
+			}
+		}
+			
+		
+		
 	}
+	else
+		aecho("最新代码已经保存到[".$source_tmp."] 请主人手工更新吧");
 	
 }
 
@@ -446,33 +468,12 @@ function aoi_create_project()
 	}
 	
 	$from  = _ROOT . 'demos' . DS . 'empty_project';
-	if( !file_exists( $from ) )
-	{
-		echo "从Aoi的家下载代码模板数据...";
-		if(!copy( AOI_HOME_URL  .'empty_project.zip' , _ROOT . 'tmp' . DS . 'empty_project.zip' ))
-		{
-			aecho( "网络不好用，那只花猫又蹲无线路由上了？..." );
-			return false;
-		}
-		else
-		{
-			aecho( "解压中..." );
-			require_once( _ROOT . 'dUnzip2.inc.php');
-			$zip = new dUnzip2(_ROOT . 'tmp' . DS . 'empty_project.zip');
-			$zip->debug = false; 
-			$zip->unzipAll( _ROOT . 'demos' );
-			aecho( "本地代码模板更新成功。\r\n复制到项目……" );
-			copy_r( $from , $app_path );
-			aecho( "完成啦。");
-		}
-	}
-	else
-	{
-		copy_r( $from , $app_path );
-		aecho( "完成啦。" );
-	}
-
-	// system( 'explorer.exe ' . $app_path );	
+	
+	if( !file_exists( $from ) ) aoi_update_lp();
+	
+	if( file_exists( $from ) ) copy_r( $from , $app_path );
+	aecho( "完成啦。" );
+	
 	
 	
 }
@@ -495,10 +496,10 @@ function aoi_help()
 {
 	echo "Aoi是一只傲娇小萝莉 , 也是LP框架的看板娘。\n你可以这样支使她帮你干活: aoi [action] [args]\n";
 	echo "- Create Project: aoi cp project_name \n";
-	echo "- Create Action: aoi ca controller_name action_name \n";
+	echo "- Create Action: api ca controller_name action_name \n";
 	echo "- Create Test: aoi ct controller_name action_name \n";
-	echo "- Create View: aoi cv controller_name action_name layout_name \n";
-	echo "- Import remote function: aoi if function_name \n";
+	echo "- Create View: api cv controller_name action_name layout_name \n";
+	echo "- Import remote function: api if function_name \n";
 
 		
 
