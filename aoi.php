@@ -135,6 +135,7 @@ function aoi_update_lp()
 	$zip->unzipAll( $source_tmp );
 	aecho( "解压成功。复制到本地Aoi目录……" );
 	$to = _ROOT .'demos' . DS . 'empty_project';
+	@mkdir( $to , 0777 , true );
 	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
 	{
 		if( is_dir( $dir ) )
@@ -500,6 +501,10 @@ function aoi_help()
 	echo "- Create Test: aoi ct controller_name action_name \n";
 	echo "- Create View: api cv controller_name action_name layout_name \n";
 	echo "- Import remote function: api if function_name \n";
+	echo "- Upgrade Aoi to latest version: api update_self \n";
+	echo "- Upgrade Aoi's LazyPHP code to latest version: api update_lp \n";
+	
+	
 
 		
 
