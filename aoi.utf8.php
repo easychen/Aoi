@@ -128,11 +128,19 @@ function aoi_update_lp()
 		return false;
 	}
 	
+	
+	$source_tmp = _ROOT . 'tmp' . DS . 'lpsource';
+	@mkdir( $source_tmp , 0777 , true );
+	
+	// clean
+	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
+		@rrmdir($dir);
+	
 	require_once( _ROOT . 'dUnzip2.inc.php');
 	$zip = new dUnzip2( $tfile );
 	$zip->debug = false; 
-	$source_tmp = _ROOT . 'tmp' . DS . 'lpsource';
-	@mkdir( $source_tmp , 0777 , true );
+	
+	
 	$zip->unzipAll( $source_tmp );
 	aecho( "解压成功。复制到本地Aoi目录……" );
 	$to = _ROOT .'demos' . DS . 'empty_project';
@@ -163,11 +171,19 @@ function aoi_update_self()
 		return false;
 	}
 	
+	$source_tmp = _ROOT . 'tmp' . DS . 'aoisource';
+	@mkdir( $source_tmp , 0777 , true );
+	
+	// clean
+	foreach( glob( $source_tmp . DS .'/*' , GLOB_ONLYDIR ) as $dir )
+		@rrmdir($dir);
+	
+	
+	
 	require_once( _ROOT . 'dUnzip2.inc.php');
 	$zip = new dUnzip2( $tfile );
 	$zip->debug = false; 
-	$source_tmp = _ROOT . 'tmp' . DS . 'aoisource';
-	@mkdir( $source_tmp , 0777 , true );
+	
 	$zip->unzipAll( $source_tmp );
 	aecho( "解压成功。复制到本地Aoi目录……" );
 	$to = AROOT ;
